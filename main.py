@@ -1,4 +1,7 @@
-
+"""
+Entrada: um arquivo .txt, obtido dos argumentos, com as instruções
+Saída: outro arquivo .txt, com os resultados das instruções
+"""
 def main():
     pass
 
