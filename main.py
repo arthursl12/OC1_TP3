@@ -21,11 +21,28 @@ def main():
     print(args.arq_entrada)
     print(args.arq_saida)
     
+    # Leitura, processamento e escrita
     with open(args.arq_entrada, "r") as in_file:
         with open(args.arq_saida, "w") as out_file:
             for line in in_file.readlines():
-                print(line)
-                out_file.write("lido: " + line)
+                # Tratamento da linha
+                temp = ' '.join(line.split())   #Junta espaços múltiplos
+                info = temp.split(' ')          #Separa por espaços
+                
+                # Extrai as informações
+                endereco = int(info[0])
+                op = int(info[1])
+                if (op == 1):
+                    dado = info[2]
+                
+                # Processamento
+                # TODO
+                
+                # Saída
+                if (op == 1):
+                    out_file.write(f"lido: {endereco}, {op}, {dado}\n")
+                else:
+                    out_file.write(f"lido: {endereco}, {op}\n")
 
 if __name__ == "__main__":
     main()
