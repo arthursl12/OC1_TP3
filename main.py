@@ -20,6 +20,12 @@ def main():
     args = parser.parse_args()
     print(args.arq_entrada)
     print(args.arq_saida)
+    
+    with open(args.arq_entrada, "r") as in_file:
+        with open(args.arq_saida, "w") as out_file:
+            for line in in_file.readlines():
+                print(line)
+                out_file.write("lido: " + line)
 
 if __name__ == "__main__":
     main()
