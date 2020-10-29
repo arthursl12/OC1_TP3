@@ -46,9 +46,4 @@ class Palavra:
             return True
         else:
             return False
-    
-    def set_dado(self, new_dado): 
-        assert type(new_dado) == str
-        assert len(new_dado) <= 32
-        self.dado = new_dado
         
