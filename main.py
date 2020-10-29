@@ -1,8 +1,11 @@
 import argparse
 
+from cache import Cache, Query
+
 """
 Entrada: um arquivo .txt, obtido dos argumentos, com as instruções
-Saída: outro arquivo .txt, com os resultados das instruções
+Saída: outro arquivo .txt, com os resultados das instruções, opcional 
+(padrão=out.txt)
 """
 def main():
     # Lê os argumentos para obter nome dos arquivos de entrada e saída
@@ -14,10 +17,13 @@ def main():
         action="store",
         type=str,
         dest="arq_saida",
-        help="(Opcional) Nome arquivo entrada",
+        help="(Opcional) Nome arquivo saída",
         default="out.txt"
     )
     args = parser.parse_args()
+    
+    # Inicialização do sistema
+    cache = Cache()
     
     # Leitura e Processamento
     qtd_misses = 0
@@ -46,8 +52,13 @@ def main():
             if (op == 1):
                 result = "W"
             elif (op == 0):
-                result = "M"
-                qtd_misses += 1
+                hit_or_miss, palavra = cache.busca(endereco)
+                if (hit_or_miss == Query.MISS):
+                    result = "M"
+                    qtd_misses += 1
+                else:
+                    result = "H"
+                    qtd_hits += 1
             
             # Armazenamento para impressão na saída
             line = line.strip()     #Remove o newline do final da linha
