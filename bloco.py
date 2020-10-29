@@ -6,7 +6,7 @@ class Bloco:
     últimos bits do seu endereço ou do resto dividindo-o por 4 (via mod 4).
     """
     def __init__(self):
-        self.palavras = []
+        self.palavras = [None, None, None, None]
         self.valido = False
         self.sujo = False
     
@@ -30,7 +30,7 @@ class Bloco:
         # Insere cada um na posição, com base no offset
         for p in palavras:
             offset = p.get_offset()
-            self.palavras.insert(offset, p)
+            self.palavras[offset] = p
         assert len(self.palavras) == 4
         self.valido = True
     

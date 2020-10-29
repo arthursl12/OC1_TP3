@@ -1,3 +1,12 @@
+from enum import Enum
+
+from bloco import Bloco
+
+class Query(Enum):
+    """Simbolizar um cache hit e um cache miss"""
+    MISS = 0
+    HIT = 1
+    
 class Cache:
     """
     Classe Cache: possui 64 blocos de 4 palavras. Busca se uma palavra está na 
@@ -7,4 +16,16 @@ class Cache:
     esse bloco sair, se ele estiver marcado como "sujo" a memória deverá 
     sobrescrevê-lo
     """
-    pass
+    def __init__(self):
+        self.blocos = []
+        for i in range(64):
+            self.blocos.insert(i, Bloco())
+    
+    def busca(self, endereco):
+        assert type(endereco) == int
+        # Transforma o endereço inteiro em binário de 32bits, mantendo os zeros
+        bin_end = '{0:032b}'.format(endereco)
+        # Extrai o tag, índice e offset
+        tag = int(bin_end[:-8], 2)
+        indice = int(bin_end[-8:-2], 2)
+        offset = int(bin_end[-2:], 2)
