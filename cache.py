@@ -29,3 +29,10 @@ class Cache:
         tag = int(bin_end[:-8], 2)
         indice = int(bin_end[-8:-2], 2)
         offset = int(bin_end[-2:], 2)
+        
+        result = self.blocos[indice].get(offset)
+        if (result is None):
+            return Query.MISS, None
+        else:
+            assert result.get_tag() == tag
+            return Query.HIT, result
