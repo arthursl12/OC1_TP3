@@ -14,7 +14,9 @@ class Cache:
     dado é carregado da memória principal. Para escrita, é feita uma busca 
     inicialmente, as alterações são feitas em princípio apenas na cache e quando
     esse bloco sair, se ele estiver marcado como "sujo" a memória deverá 
-    sobrescrevê-lo
+    sobrescrevê-lo.
+    
+    É inicializada com blocos vazios em todas as 64 posições.
     """
     def __init__(self):
         self.blocos = []
