@@ -16,14 +16,6 @@ class Memoria:
 
     def write_bloco(self, bloco):
         """ Escreve um bloco na memória a partir do endereço """
-        assert type(endereco) == int
-        # Transforma o endereço inteiro em binário de 32bits, mantendo os zeros
-        bin_end = '{0:032b}'.format(endereco)
-        # Extrai o tag, índice e offset
-        tag = int(bin_end[:-8], 2)
-        indice = int(bin_end[-8:-2], 2)
-        offset = int(bin_end[-2:], 2)
-
         self.palavras[bloco.get(0).endereco] = bloco.get(0).dado
         self.palavras[bloco.get(1).endereco] = bloco.get(1).dado
         self.palavras[bloco.get(2).endereco] = bloco.get(2).dado
