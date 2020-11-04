@@ -1,6 +1,7 @@
 import argparse
 
 from cache import Cache, Query
+from memoria import Memoria
 
 """
 Entrada: um arquivo .txt, obtido dos argumentos, com as instruções
@@ -24,6 +25,7 @@ def main():
     
     # Inicialização do sistema
     cache = Cache()
+    memoria = Memoria()
     
     # Leitura e Processamento
     qtd_misses = 0
@@ -48,14 +50,31 @@ def main():
                 qtd_reads += 1
                 
             # Processamento
-            # TODO
             if (op == 1):
                 result = "W"
+                hit_or_miss, palavra = cache.busca(endereco)
+                bloco = cache.read_bloco(endereco)
+                if (hit_or_miss == Query.MISS):
+                    # Se o bloco estiver sujo, escreve o dado na memória
+                    if bloco.get_sujo():
+                        memoria.write_bloco(bloco)
+                # Lê o bloco da memória para a cache
+                cache.write_from_memory(endereco, memoria.get_bloco(endereco)) 
+                # Escreve o dado no bloco da cache e marca como sujo.
+                cache.write_from_input(endereco, dado)
             elif (op == 0):
                 hit_or_miss, palavra = cache.busca(endereco)
                 if (hit_or_miss == Query.MISS):
                     result = "M"
                     qtd_misses += 1
+                    # Busca o bloco na cache
+                    bloco = cache.read_bloco(endereco)
+                    # Se o bloco estiver sujo, escreve o dado na memória
+                    if bloco.get_sujo():
+                        memoria.write_bloco(bloco)
+
+                    # Lê da memória para a cache e marca o bit como não sujo.
+                    cache.write_from_memory(endereco, memoria.get_bloco(endereco)) 
                 else:
                     result = "H"
                     qtd_hits += 1

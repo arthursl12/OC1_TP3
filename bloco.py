@@ -17,6 +17,10 @@ class Bloco:
     
     def get_sujo(self):
         return self.sujo
+
+    def set_sujo(self, bit):
+        assert type(bit) == bool
+        self.sujo = bit
     
     def insert(self, p1, p2, p3, p4):
         """
@@ -28,7 +32,7 @@ class Bloco:
         indice = p1.get_indice()
         for p in palavras:
             assert p.get_indice() == indice
-        
+
         # Insere cada um na posição, com base no offset
         for p in palavras:
             offset = p.get_offset()
@@ -41,7 +45,7 @@ class Bloco:
         assert offset < 4
         assert offset >= 0
         return self.palavras[offset]
-    
+
     def write(self, offset, new_dado):
         """Escreve o dado no endereço com offset fornecido"""
         old = self.palavras[offset]

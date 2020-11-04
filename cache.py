@@ -38,3 +38,44 @@ class Cache:
         else:
             assert result.get_tag() == tag
             return Query.HIT, result
+
+    def read_bloco(self, endereco):
+        assert type(endereco) == int
+        # Transforma o endereço inteiro em binário de 32bits, mantendo os zeros
+        bin_end = '{0:032b}'.format(endereco)
+        # Extrai o tag, índice e offset
+        indice = int(bin_end[-8:-2], 2)
+        return self.blocos[indice]
+
+    def write_from_memory(self, endereco, bloco):
+        assert type(endereco) == int
+        # Transforma o endereço inteiro em binário de 32bits, mantendo os zeros
+        bin_end = '{0:032b}'.format(endereco)
+        # Extrai o tag, índice e offset
+        tag = int(bin_end[:-8], 2)
+        indice = int(bin_end[-8:-2], 2)
+        offset = int(bin_end[-2:], 2)
+
+        # Marca o bit como não sujo.
+        bloco.set_sujo(False)
+        self.blocos[indice] = bloco
+
+    def write_from_input(self, endereco, dado):
+        assert type(endereco) == int
+        # Transforma o endereço inteiro em binário de 32bits, mantendo os zeros
+        bin_end = '{0:032b}'.format(endereco)
+        # Extrai o tag, índice e offset
+        tag = int(bin_end[:-8], 2)
+        indice = int(bin_end[-8:-2], 2)
+        offset = int(bin_end[-2:], 2)
+
+        bloco = self.blocos[indice]
+
+        # Escreve o dado novo no bloco.
+        bloco.write(offset, dado)
+
+        # Marca o bit como sujo.
+        bloco.set_sujo(True)
+
+
+
