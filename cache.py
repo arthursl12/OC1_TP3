@@ -33,7 +33,7 @@ class Cache:
         offset = int(bin_end[-2:], 2)
         
         result = self.blocos[indice].get(offset)
-        if (result is None):
+        if ((result is None) or (result.get_tag() != tag)):
             return Query.MISS, None
         else:
             assert result.get_tag() == tag
